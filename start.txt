@@ -1,0 +1,99 @@
+GitHub Credentials:
+amalik-git
+sn@impala67
+
+Github Repository Created
+Name:   github-demo
+Branch: master as the default branch.
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Terms
+	Working Directory
+	Repository (.git folder -- History)
+	Staging Area (Pre-Commit Changes Lays Here)
+	Remote Repository
+
+Installation
+	Done
+	Text Editor Link
+	
+Entire Flow In Action
+	Remote Repository Create
+	Clone/Bring down that to our local machine 
+		Working Directory
+		Local Repository
+	Make Some Changes to Files in our working directory
+		Staging Area
+		Commit to Local Repository
+	Send those changes to Remote Repository
+
+Setting user object in config file
+	Global
+		C:
+			Users
+				UserName
+					.gitconfig
+						
+						Example Sample Look:
+						[user]
+							email = amy.amymalik@gmail.com
+							name = amalik-git
+						[core]
+							editor = notepad++.exe -multiInst -nosession
+					
+	
+	Local Repository
+		.git folder
+			config
+					Example Sample Look:
+						[user]
+							user.name   = amy.amymalik@gmail.com
+							user.email 	= amalik
+	
+	
+	Commands:
+		See it
+			git config --list
+		Change Locally:
+			git config user.name ""
+			git config user.email ""
+		Change Gobally:
+			git config --global user.name ""
+			git config --global user.email ""
+
+
+
+
+Cloning Remote Repository into Local Machine
+	GitHub
+		Repository
+			(We call it) Remote Repository
+					Since it is a Repository,it has .git folder
+						We want this Repository (.git folder along with all other content) to be copied into our Local Machine
+							To do that,
+								In our Local Machine
+									We will pick a Working Directory Of Our Choice
+										And There, we will invoke git clone command
+											Once you do that, the .git folder along with all other content from Remote Repository Will Be Copied
+											as it is to our Working Directory.
+												
+										Along with it, what happens on our behalf?
+											Two Way RelationShip is formed by this clone command.
+											Config File Of Local Repository gets updated with Location of Remote Repository.
+											So, if we make some changes to Local Repository and try to push, git will know in that case, where to push.
+											
+											This Remote Repository Location is referred by a parameter called origin.
+											
+											This is the reason why, you see following message when you invoke git status:
+												Your branch is up to date with 'origin/master'.
+												origin -> Refers Remote Repository
+												master -> Branch
+												
+												Example:
+												$ git status
+												On branch master
+												Your branch is up to date with 'origin/master'.
+												
+												nothing to commit, working tree clean
