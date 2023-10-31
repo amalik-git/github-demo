@@ -1,0 +1,51 @@
+root-commit => First commit on a Repository (Local/Remote) Is Called as root-commit.
+
+
+git config --list
+git config user.name ""
+git config user.email ""
+git clone <RemoteRepositoryUrl>
+git status
+
+Create a File and Read It
+echo "Some Test Content" >> start.txt
+cat start.txt
+
+git add <file>
+git add <.> 	(Period: To Add All The Files Not Just Single)
+git restore --staged <file>..." to Unstage Untracked File From Staging Area
+git restore  <file>..." to Revert Changes You Made To Tracked File In Staging Area
+
+git commit -m ""
+git push <RemoteRepositoryUrl> <Branch>
+
+git config --global core.editor "notepad++ -multiInst -nosession"
+git config --global --unset core.editor
+
+Edit git global config file using default text editor linked with git (This will verify which text editor is linked)
+git config --global -e
+
+git init
+git init <SubDirectoryName>
+
+
+ls -al (List Hidden Folders/Files)
+notepad++ <NewFileName> (Open Up Notepad++ with new file on current Working Directory)
+mv <FileLocationSource> <FileLocationDestination> (Move File)
+rm -rf <Directory> (Remove Remove Forcefully any directory and all of its traces)
+
+git pull <RemoteRepositoryUrl> <Branch> (Always a good to take a pull before doing a push)
+
+git ls-files (View all the tracked files)
+
+mkdir		(Create Directory, but will not create parent directories if they are absent. It will rather throw an error saying parent does not exists, No Such Directory Exists)
+mkdir -p	(Create Parent Folders As well If they do not exists. Don't throw an error saying parent does not exists, No Such Directory Exists)
+	Example:
+	mkdir parent/child/grandchild -> For this command to be successfull, all the parents must exists before hand. Because If they don't, bash will throw an
+									 error saying no such directory exists.
+	mkdir parent/child/grandchild -> For this command to be successfull, none of the parents must exists before hand. Bash will start creating parent if finds
+									 parent directory is not there. So, we will not get the error that we got above.
+									 
+
+
+	

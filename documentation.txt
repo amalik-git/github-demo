@@ -1,0 +1,524 @@
+GitHub Credentials:
+amalik-git
+sn@impala67
+
+Github Repository Created
+Name:   github-demo
+Branch: master as the default branch.
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Terms
+	Working Directory
+	Repository (.git folder -- History)
+	Staging Area (Pre-Commit Changes Lays Here)
+	Remote Repository
+
+Installation
+	Done
+	Text Editor Link
+	
+Entire Flow In Action
+	Remote Repository Create
+	Clone/Bring down that to our local machine 
+		Working Directory
+		Local Repository
+	Make Some Changes to Files in our working directory
+		Staging Area
+		Commit to Local Repository
+	Send those changes to Remote Repository
+
+Setting user object in config file to set username, password
+	Global
+		C:
+			Users
+				UserName
+					.gitconfig
+						
+						Example Sample Look:
+						[user]
+							email = amy.amymalik@gmail.com
+							name = amalik-git
+						[core]
+							editor = notepad++.exe -multiInst -nosession
+					
+	
+	Local Repository
+		.git folder
+			config
+					Example Sample Look:
+						[user]
+							user.name   = amy.amymalik@gmail.com
+							user.email 	= amalik
+						[core]
+							editor = notepad++.exe -multiInst -nosession
+	
+	
+	Commands:
+		See it
+			git config --list
+		Change Locally:
+			git config user.name ""
+			git config user.email ""
+
+		Change Gobally:
+			git config --global user.name ""
+			git config --global user.email ""
+
+			$ git config --list
+			user.email=amy.amymalik@gmail.com
+			user.name=amalik-git
+		
+		
+		
+
+Cloning Remote Repository into Local Machine
+	GitHub
+		Repository
+			(We call it) Remote Repository
+					Since it is a Repository,it has .git folder
+						We want this Repository (.git folder along with all other content) to be copied into our Local Machine
+							To do that,
+								In our Local Machine
+									We will pick a Working Directory Of Our Choice
+										And There, we will invoke git clone command
+											Once you do that, the .git folder along with all other content from Remote Repository Will Be Copied
+											as it is to our Working Directory.
+												
+										Along with it, what happens on our behalf?
+											Two Way RelationShip is formed by this clone command.
+											Config File Of Local Repository gets updated with Location of Remote Repository.
+											So, if we make some changes to Local Repository and try to push, git will know in that case, where to push.
+											
+											This Remote Repository Location is referred by a parameter called origin.
+											
+											This is the reason why, you see following message when you invoke git status:
+												Your branch is up to date with 'origin/master'.
+												origin -> Refers Remote Repository
+												master -> Branch
+												
+												Example:
+												$ git status
+												On branch master
+												Your branch is up to date with 'origin/master'.
+												
+												nothing to commit, working tree clean
+
+
+Adding a New File To Working Directory
+			We have Working Directory
+				There we have a File (start.txt)
+					This file is Not Already Being Tracked By Git because we just created it manually in the Working Directory
+						We make some Changes on this file
+							If we hit, git status,
+							-> git will say following:
+							-> there is an untracked file (start.txt) in the Working Directory
+							-> this file is not in Staging Area Yet
+							-> to add/move this file to Staging Area, invoke git add <fileName>
+							-> to remove these changes from working directory and 
+							   to bring it to sync with the last commit that is there in Local Repository,
+							   use git restore <file>
+							-> to remove/drop this file from Staging Area, invoke git restore --staged <file>
+							-> to move this file from Staging Area to Local Repository, commit this file by using git commit -m ""
+							-> to move this file from Local Repository to Remote Repository, push it by using git push git push <RemoteRepositoryUrl> <Branch>
+
+							So, Overall Flow:
+									New File
+										Working Directory
+											Staging Area
+												Local Repository
+													Remote Repository
+
+			Example:
+	
+					We have our Working Directory
+					We Add a new file start.txt manually
+					We hit git status
+					This is what we will see from git:
+						
+						On branch master
+						Your branch is up to date with 'origin/master'.
+
+						Untracked files:
+						  (use "git add <file>..." to include in what will be committed)
+								start.txt
+
+						nothing added to commit but untracked files present (use "git add" to track)
+
+					We then moved this file to Staging Area from Working Directory by using git add <file> command.
+					git add start.txt
+					We hit git status
+					This is what we will see from git:
+						On branch master
+						Your branch is up to date with 'origin/master'.
+
+						Changes to be committed:
+						  (use "git restore --staged <file>..." to unstage)
+								new file:   start.txt
+
+					We then moved this file to Local Repository From Staging Area using git commit -m "" command.
+					git commit -m "Adding A New File That Contains The Documentation Of What We Have Learned So Far In GitVersionControl Udemy Course"
+					We hit git status
+					This is what we will see from git:
+
+					On branch master
+					Your branch is ahead of 'origin/master' by 1 commit.
+					  (use "git push" to publish your local commits)
+
+					nothing to commit, working tree clean
+				
+					We then moved this file to Remote Repository From Local Repository using git push <RemoteRepositoryUrl> <Branch> command.
+					git push origin master
+					
+						Authentication Promopt will appear, enter username and token as password.
+						Then we Go to GitHub and see our Remote Repository
+						We will see our file there.
+
+
+
+
+Modifying Existing File In Working Directory
+			We have Working Directory
+				There we have a File
+					This file is Already Being Tracked By Git
+						We make some Changes on this file
+							If we hit, git status,
+							-> git will say following:
+							-> your changes are in Working Directory
+							-> your changes are not in Staging Area Yet
+							-> to move those changes to Staging Area, invoke git add <file>
+							-> to remove these changes from working directory and 
+							   to bring it to sync with the last commit that is there in Local Repository,
+							   use git restore <file>
+							-> Once these changes are moved to Staging Area, you can either commit those or remove those from Staging Area.
+							-> to restore the file that is in Staging Area,invoke git restore --staged <file>
+							-> to move the Staging Area changes to Local Repository, commit those changes by using git commit -m ""
+							-> to move the Local Repository changes to Remote Repository, push those changes by using git push git push <RemoteRepositoryUrl> <Branch>
+			
+
+Register/Invoke NotePad++ From Git Bash, CMD, PowerShell or any other Bash Program
+	Open Git Bash/CMD/PowerShell
+		Type notepadd++
+			Hit Enter
+				You may see command not found
+					It means, bash program searched for notepad++.exe but it did not find any .exe application with that name
+						It means, notepadd++ entry is not there in System Variable (Path)
+							To resolve it
+								Locate NotePad++ in your Program Files or Program Files(x86)
+									Add it to System Variable (Path)
+										After this, you can open your text editor from any bash program
+									
+
+Make NotePad++ as Default Text Editor For Git
+	For that, we can use Core Object of config file and its property editor
+		[core]
+			editor = notepad++ -multiInst -nosession
+			
+			Example:
+				
+				Before Its Entry:
+				$ git config --global --list
+					user.email=amy.amymalik@gmail.com
+					user.name=amalik-git
+
+				$ git config --global core.editor "notepad++ -multiInst -nosession"
+
+				After Its Entry:
+				$ git config --global --list
+					user.email=amy.amymalik@gmail.com
+					user.name=amalik-git
+					core.editor=notepad++ -multiInst -nosession
+
+
+				NOTE:	To unset a specific object's property from config file, using --unset flag
+						
+						Example:
+						git config --global --unset core.editor
+
+
+
+Creating A Fresh Git Local Repository
+	Go to the Working Directory of our choice.
+		Use git init
+		Use git init <SubDirectoryName>
+	
+
+		git init 
+		It will create a Local Git Repository the folder you are in. (.git folder)
+
+		git init <SubDirectoryName> will create a SubDirectory inside the Working Directory where you are in and initialize a git Local Repository there.
+		It will create a Local Git Repository the folder you are provided as Parameter (SubDirectoryName/.git folder)
+
+		If we do git status on our newly created Local Repository, git will says following:
+		We are on master branch.
+		So far, we haven't made any commit.
+		Also, there is nothing to commit.
+		
+		git status
+			On branch master
+
+			No commits yet
+
+			nothing to commit (create/copy files and use "git add" to track)
+
+		Further flow:
+			Add A New File (1)
+				Move it to Staging Area (2)
+					Move it to Local Repository (It then becomes Part of History) (3)
+						The Message we see for the first commit will be a bit different:
+							It will say: On Master Branch, we have a made a root-commit
+					
+				1.	
+				git status
+					On branch master
+
+					No commits yet
+
+					Untracked files:
+					  (use "git add <file>..." to include in what will be committed)
+							hipster.txt
+
+					nothing added to commit but untracked files present (use "git add" to track)
+				
+				2.
+				git add hipster.txt
+
+				3.
+				git status
+					On branch master
+
+					No commits yet
+
+					Changes to be committed:
+					  (use "git rm --cached <file>..." to unstage)
+							new file:   hipster.txt
+
+				4.
+				git commit
+					NOTE 1: Notepadd++ opens up since we have not used -m "" flag
+							We entered git commit instead of git commit- m ""
+							We provide comments and close the notepad++
+							As soon as we close the notepad++, git collects those comments and add that to -m flag
+							And then does a commit
+					***********************************************************
+						
+					
+					[master (root-commit) eab492e] 1. Added hipster.txt file 2. Edited this File With Notepadd++ editor 3. Commit Message is also done via Notepadd++ editor
+					 1 file changed, 274 insertions(+)
+					 create mode 100644 hipster.txt
+
+					
+					NOTE 2: The response message that we see from git is a bit different. 
+							It says, on master branch, we have made a root-commit 
+							
+							master (root-commit)
+							Which means, on master branch, this is our first commit.
+							We will not see this (root-commit) on second commit.
+							
+							Example: 
+								[master 3d52d48] Added More Content to hipster.txt file
+								 1 file changed, 67 insertions(+), 7 deletions(-)
+					***********************************************************
+							
+					NOTE 3:	Lines Separators are not retained that we typed in notepadd++
+							Above we can see, all the lines are combined.
+							This behaviour, we will see more detail later.
+					***********************************************************
+					
+				
+				5.
+				git status
+					On branch master
+					nothing to commit, working tree clean
+
+		
+		
+		NOTE: 
+		=====
+		If .git folder is there, it means that this Working Directory is being tracked by git.
+		If .git folder is not there, it means that this Working Directory is not being tracked by git and none of the git command will work.
+		
+		And if you try any git command over a Working Directory that is not being tracked by git, you will see following message:
+			git status
+			fatal: not a git repository (or any of the parent directories): .git
+
+
+
+
+
+
+Fork A Remote Repository From Some One Else's Account Into Your Own GitHub Account (GitHub Specific Operation)
+			In short, once we Fork a Remote Repository on GitHub, GitHub will create a copy of that Remote Repository from Owners Account into our GitHub Account.
+			So, after this operation, if we go to our GitHub Account and try to see the existing Repositories, we will the Forked Repository there.
+			Also, it will be specifically mentioned that this Repository is being Forked from some else's GitHub Account.
+
+			Example:
+			Owner: ninja-user
+			Remote Repository : starter-web
+			
+			Now, We want this Remote Repository in our GitHub Account as well.
+			So, we will fork it from GitHub User Interface.
+			After this: If we check our GitHub Account,
+			
+			Owner: amalik-git/starter-web
+			Remote Repository : starter-web
+			---------------------------------
+			Forked from scm-ninja/starter-web
+			---------------------------------
+			
+			Clone In Our Local Machine
+				We get Local Repository
+					If we do git status
+						It will say, on master branch
+							Up to Date with origin/master 
+							(This message appears only for cloned Repositories and not for the Local Repository that we created on our own in earlier step)
+							-------------------------------------------------------------------------------------------------------------------------------
+
+							
+							
+Pull Before Push
+	It is always recommended to pull from Remote Repository before doing a push to Remote Repository.
+	Multiple Team Members May be working on the same Remote Repository that you are working on.
+	So, it's better to be in sync prior we push our changes.
+	
+	Use Command: 
+	git pull <RemoteRepositoryUrl> <Branch>
+	
+	Example:
+	git pull origin master
+		Once we execute this command, git will say following:       
+		-> On GitHub,												(https://github.com)
+		-> There is user, 											(amalik-git)
+		-> That user has a Repository, 								(github-demo)
+		-> You Local Repository is now synced with the code of That Remote Repository.
+		
+			From https://github.com/amalik-git/github-demo
+			 * branch            master     -> FETCH_HEAD
+			Already up to date.	
+			
+
+Tracked Files
+	The new files that we manually add in our Working Directory are not tracked by git.
+	It does'nt matter how many times we make a change to such files, git will not track those changes.
+	
+	Git will only say that there is an Untracked File or Multiple Untracked Files in your Working Directory.
+	If you want to add it, use git add <file> command.
+	Example:
+	git status
+		Untracked files:
+		  (use "git add <file>..." to include in what will be committed)
+				1.txt
+				2.txt
+				3.txt
+	
+	
+	If we want git to track such files, we first have to add it to Staging Area.
+	Once such files is moved to Staging Area or further (Local Repository, Remote Repository), git starts tracking these files.
+	
+
+
+List Tracked Files
+	To View The Files That Are Being Tracked By Git, we can use following command:
+	git ls-files
+	NOTE: ls-files is a one word and not some flag (Type it as it is without any space).
+	
+	Example:
+	Say In Our Working Directory
+		We have our Local Repository (.git folder) which is cloned from Remote Repository
+			We have 3 files here.
+				index.html
+				404.html
+				README.txt
+					If we manually add 3 more files (1.txt,2.txt and 3.txt) and 
+						Execute 
+							git ls-files
+								We won't see these 3 files (1.txt,2.txt and 3.txt) in the result.
+									We will only see the tracked files in the result
+										index.html
+										404.html
+										README.txt
+
+
+Adding Nested Folders Of Our Working Directory To Staging Area
+	Let's say, in our Working Directory (starter-web), that is being tracked by Git, we have created following folders and files.
+		starter-web
+			parent
+				parent.txt
+				child
+					child.txt
+					grandchild
+						grand-child.txt
+			
+	To add files recursively, use git add <.> command.
+	
+			NOTE: 
+			git add <.> period command will consider the current folder from where we are executing the command.
+			That folder, and all of its Nested Folders & Files will be added by git recursively in a single go.
+
+			Example:
+			If I Navigate to child folder and execute git add <.> period command, 
+			git will only add current folder that I am in and all of its nested folders. (Folder child and all of its subfolders & files)
+			git will not add the parents of the current folder that I am in (Folder parent and file name parent.txt)
+			
+			NOTE:
+			Also, it is a choice, if we want to go to a specific subfolder first and want to stage the change of that folder and its subfolders & files first.
+			Later, we could come back to parents of that specific subfolder and stage that.
+			Example:
+			
+			cd parent
+				cd child
+					git add .
+						child, child.txt, grandchild, grandchild.txt (All these will be Moved to Staging Area)
+							git status
+								git will say, the folder that you are in, this folder and all of its subfolders are added recursively. 
+											  However, the folder that you are in, it's parent folder and every other file/folder that is not part of the folder you 
+											  are in, is not added.
+								Means: 	parent, parent.txt are still remaming.
+								Example:
+								On branch master
+								Your branch is up to date with 'origin/master'.
+								Changes to be committed:
+								  (use "git restore --staged <file>..." to unstage)
+										new file:   child.txt
+										new file:   grandchild/grandchild.txt
+								Untracked files:
+								  (use "git add <file>..." to include in what will be committed)
+										../parent.txt
+									
+			So, we can now go ahead and add remaming stuff.
+			cd parent
+				git add .
+					It will add all the remaming stuff that were remaming in the previous step to Staging Area.
+
+
+
+
+Backing Out Changes From Staging Area
+	File
+		Tracked By Git
+			Made Some Changes
+				Moved those to Staging Area from Working Directory
+					Now, we want to back those changes
+						Use git restore --staged <fileName> command
+							Once we do that, our changes will be dropped from Staging Area
+								They will only remain Working Directory
+
+Backing Out Changes From Working Directory
+	File
+		Tracked By Git
+			Made Some Changes
+				Case 1: Moved those to Staging Area from Working Directory
+							Now, we want to back out those changes
+								Use git restore --staged <fileName> command
+									Once we do that, our changes will be dropped from Staging Area
+										They will only remain Working Directory
+								
+				Case 2: Never Moved These changes to Staging Area Yet
+							Now, we want to back out those changes
+								Use git restore <fileName> command
+									Once we do that, our changes will be dropped from Working Directory
+										What we get is, the last version of file that is there in the Local Repository
+
+
+
