@@ -48,4 +48,26 @@ mkdir -p	(Create Parent Folders As well If they do not exists. Don't throw an er
 									 
 
 
-	
+git restore --staged <.> 	(<period> to back out all the changes from Working Directory) 				
+git restore <.> 			(<period> to back out all the changes from Working Directory)
+
+git mv <"source"> <"destination">
+git add -A
+
+git rm -rf <file>
+
+History:
+			Svn Show History		
+			Click on Revision
+			Filter by Revision
+			Filter by file
+			Double Click On a File
+			
+			git log
+			git show <CommitId>
+			git log <CommitId>...<CommitId>
+			git log -- <FileName>
+			git show <FileName>
+			
+			
+			

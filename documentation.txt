@@ -1,3 +1,10 @@
+GitHub Credentials:
+amalik-git
+sn@impala67
+
+Github Repository Created
+Name:   github-demo
+Branch: master as the default branch.
 
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -513,5 +520,379 @@ Backing Out Changes From Working Directory
 									Once we do that, our changes will be dropped from Working Directory
 										What we get is, the last version of file that is there in the Local Repository
 
+				NOTE: use git restore --staged <.> 	(<period> to back out all the changes from Working Directory) 				
+				NOTE: use git restore <.> 			(<period> to back out all the changes from Working Directory)  
 
 
+
+Renaming And Moving The Tracked Files in git Repository
+			
+			In Computer World, Whenever we Rename or Move a file, two operations happens internally.
+			1. Deletion of the existing file from source location.
+			2. Creation of a new file at the target location.
+			source and destination could or couldn't be same.
+			
+			git, as well, sees it the same way.
+			It sees it as 2 operations.
+			First is the deletion of exising file from source location 
+			Second is the creation of a new file in at the target location
+			
+			The same can be verified, if we do git status, after renaming a file in our Working Directory.
+			
+			Let's say, we have a file gold.txt
+				It's current Location: starter-web/parent/child/grandchild
+			We want to rename it and move it to some different location.
+				New Location: starter-web
+			
+			Let's say we do it by using bash or file explorer, and not by git.
+			After this, 
+			If we do git status,
+			git will say following:
+				One file deleted.
+				One new file is there in Working Directory that needs to be staged.
+					
+					Example:
+					git status
+					On branch master
+					Changes not staged for commit:
+					  (use "git add/rm <file>..." to update what will be committed)
+					  (use "git restore <file>..." to discard changes in working directory)
+							deleted:    parent/child/grandchild/gold.txt
+
+					Untracked files:
+					  (use "git add <file>..." to include in what will be committed)
+							supergold.txt
+
+					no changes added to commit (use "git add" and/or "git commit -a")
+			
+			
+			There is a Problem with this message.
+			From Computer prospective, it is true but we don't want the same to be written in git history.
+			We want something like, we have renamed/moved the exising file to some other name/location.
+			
+			For that we have 2 options.
+			
+			Option 1: Use git mv <"source"> <"destination"> command to perform above operation rahter than bash/file explorer.
+					  This will move/rename the file in Working Directory. 
+					  Then it will Add this move/rename to Staging Area
+					  Then in Commit message, it will treat move/rename as a Rename not deletion & addition (Single Operation)
+			
+			Option 2: Use git add -A command
+					  This command works recursively.
+					  This command looks for all the deletions/additions/renames.
+					  
+					  In our case,
+					  It will Look for all the deleted files. (that were being tracked)
+					  It will Look for all the newly created files. (that are not Staged Yet)
+					  It will the Compare the content.
+					  If the content is exact match, it will treat that as a rename 
+					  (Single Rename Operation rahter than 2 Operations : Deletion & Addition Operation)
+					  
+					  NOTE: Also, this command works recursively. 
+					        So, pay attention from which directory you are executing it.
+                            It will do what it does, on that directory and nested directories under it.
+							
+						Example: This is what, git will say if we rename/move a file using any of the above options.
+						git status
+							On branch master
+							Changes to be committed:
+							  (use "git restore --staged <file>..." to unstage)
+								 renamed:    parent/child/grandchild/gold.txt -> supergold.txt
+								 
+			
+			IMPORTANT NOTE ABOUT git add -A:
+			-------------------------------
+			Be cautious while executing this command.
+			If you have changed the content of a file, and then renamed/moved it to some other place or same place, 
+			git will not consider it as rename opertion.
+			
+			git will consider it as 2 operions.
+			1 deletion and 1 addition
+			why?
+			because files content won't match when git comapres all the deletions and additions as part of this command.
+			you do git add -A,
+			
+			Interesting Fact About git mv <"source"> <"destination">
+			--------------------------------------------------------
+			If we move a file from source to destination via giv mv <"source"> <"destination"> command,
+			git will say, we have done one rename operation.
+			
+			If we again execute git giv mv <"source"> <"destination">, but this time, moving that file back to original source from the last destination,
+			git will say, there is nothing at all to do.
+			Everything is good.
+			Ideally, the situation is as is as it was in the initial.
+			
+
+
+
+
+
+Deleteing a file/folder that is being tracked by git
+	2 Options.
+	
+	Operating System Way.
+	Git Way.
+	
+	rm -rf <file>
+	git rm -rf <file>
+	
+	Difference b/w these?
+	When we do the deletetion git way, we don't have it add it to Staging Area. Git will do it on our behalf.
+	When we do the deletetion non git way, we manually have it Stage that change.
+
+	Still the flow remains same:
+	Working Directory -> Staging Area -> Local Repository -> Remote Repository
+
+	Interesting Fact:
+	Let's say we have following directory structute: 
+		starter-web/lev_1/lev_2/lev_3
+			Let's say we have deleted a folder the lev_1 recursively by using bash rm -rf <file> command.
+				Now if we do, git status
+					git will say, lev_1, lev_2 and lev_3 is deleted from Working Directory
+						These deletions are not Staged Yet.
+							Either Stage These Deletions One By One
+								Or, We can use, git add -A to stage all the Deletions at once since we know that this command 
+								looks for all the deletions/additions/renames recursively.
+								
+
+	Interesting Fact About Empty Folders
+		Git doesn't add empty folders to Staging Area.
+		We need to have at least one file in it to make it eligible to be Staged.
+		
+		Let's say, as of now, we have a folder and there is no file in it.
+		But we still want this folder to be Staged, 
+		For that, there are some tricks available online.
+		One such is trick is , to put a README file in our folder with an explanation of why we want this.
+
+
+
+
+
+
+Logging History
+	git log
+	
+	At any point of time, if we want to see, what all changes we have committed so far, we can use git log command.
+	Once executed, git will display all the commits in reverse chronological order with all the details like 
+		*unique commit id associated with that commit
+		*author 
+		*date
+	    *commit message
+
+		(Is author ne (jiksa username and email ye h), Is date ko, ye wala commit kiya tha, jiska commit id and commit message ye h)
+	
+	Example:
+			git log
+			
+			commit fe31b18be8155d5c022affa84d3b4598c239a0b0 (HEAD -> master, origin/master, origin/HEAD)
+			Author: amalik-git <amy.amymalik@gmail.com>
+			Date:   Wed Nov 1 00:29:33 2023 +0530
+
+				Updated Documentation
+
+			commit 74243845381d6a50a4525a53ce45bcd6d7182ce3
+			Author: amalik-git <amy.amymalik@gmail.com>
+			Date:   Wed Nov 1 00:25:03 2023 +0530
+
+				Added 2 files.
+				One for Detailed documentation.
+				Other for Useful Commands.
+
+			commit fc6db7aa378e15d1b1a3301ec4ff601434e56e2d
+			Author: amalik-git <amy.amymalik@gmail.com>
+			Date:   Sat Oct 28 10:19:33 2023 +0530
+
+				Adding A New File That Contains The Documentation Of What We Have Learned So Far In GitVersionControl Udemy Course
+
+			commit 7f241ac941522634b88bb3d3fdd612569ddbece8
+			Author: amalik-git <81363144+amalik-git@users.noreply.github.com>
+			Date:   Sat Oct 28 09:06:44 2023 +0530
+
+				Initial commit
+
+
+
+	(2)
+	git log <CommitId>
+	
+	Logging history till a specific Commit Id in reverse chronological order:
+	If we want to see history till a specific commit, we can use git log <CommitId>
+	Upon execution, Git will log all the commits that we did till that Command Id
+	Note: The commit id that we specify is inclusive here.
+	
+	Example:	
+		Lets say we have 4 commit ids in total.
+		C4
+		C3
+		C2
+		C1
+		
+		If we execute git log C3, git will show us information for C3 and C2 and C1 from history.
+
+
+	(3)
+	git log <CommitId>...<CommitId>
+	
+	Logging History Between two Commit Ids:
+	If at any point of time, we want to see history between two commits, we can use git log <CommitId>...<CommitId>
+	Note: Second commitId is exclusive.
+	Example:	
+		Lets say we have 4 commit ids in total.
+		C4
+		C3
+		C2
+		C1
+		
+		If we execute git log C3...C1, git will show us information for C3 and C2 from history.
+
+	(4)
+	git log -- <File Name>
+	
+	Logging history of a specific file.
+	If we want to log history of a specific file, we can specify the name of that file/s "after dash dash space"
+	
+	Example:
+		git log -- documentation.txt
+			commit fe31b18be8155d5c022affa84d3b4598c239a0b0 (HEAD -> master, origin/master, origin/HEAD)
+				Author: amalik-git <amy.amymalik@gmail.com>
+				Date:   Wed Nov 1 00:29:33 2023 +0530
+
+					Updated Documentation
+			commit 74243845381d6a50a4525a53ce45bcd6d7182ce3
+				Author: amalik-git <amy.amymalik@gmail.com>
+				Date:   Wed Nov 1 00:25:03 2023 +0530
+
+					Added 2 files.
+					One for Detailed documentation.
+					Other for Useful Commands.
+	Example:
+		git log -- documentation.txt -- README.md
+			commit fe31b18be8155d5c022affa84d3b4598c239a0b0 (HEAD -> master, origin/master, origin/HEAD)
+				Author: amalik-git <amy.amymalik@gmail.com>
+				Date:   Wed Nov 1 00:29:33 2023 +0530
+
+					Updated Documentation
+
+			commit 74243845381d6a50a4525a53ce45bcd6d7182ce3
+				Author: amalik-git <amy.amymalik@gmail.com>
+				Date:   Wed Nov 1 00:25:03 2023 +0530
+
+					Added 2 files.
+					One for Detailed documentation.
+					Other for Useful Commands.
+
+			commit 7f241ac941522634b88bb3d3fdd612569ddbece8
+				Author: amalik-git <81363144+amalik-git@users.noreply.github.com>
+				Date:   Sat Oct 28 09:06:44 2023 +0530
+
+					Initial commit
+
+	(6) 
+	git show <CommitId>
+		Let's say, I have seen the history using git log command.
+		git log
+			C4
+			C2
+			C3
+			C1
+		I have all the Commit Ids at my disposal.
+		Now, I want to see, what all changes I did in a Commit Id. 
+		(What all files, the content on those file, what lines I added, what lines I removed)
+		For that, I can use, git show <CommitId> command.
+		
+		Example:	
+		git show 2315d7ae1eefdead76423db0e6e82cad20d4501c
+			commit 2315d7ae1eefdead76423db0e6e82cad20d4501c (HEAD -> master)
+			Author: amalik-git <amy.amymalik@gmail.com>
+			Date:   Tue Nov 14 11:19:25 2023 +0530
+
+				Modifying hispters.txt
+
+			diff --git a/hipsters.txt b/hipsters.txt
+			index 210aebf..995fd38 100644
+			--- a/hipsters.txt
+			+++ b/hipsters.txt
+			@@ -1,3 +1,6 @@
+			 hipster.txt
+
+			-Hello Hipster
+			\ No newline at end of file
+			+Hello Hipster
+			+
+			+
+			+Modifying it to see --follow flag
+			\ No newline at end of file
+		
+		
+		
+		
+	(5)
+	Popular Flags.
+	(a) --abbrev-commit
+	(b) --oneline
+	(c) --since "<Duration String>"
+    (d) --follow -- <FileName>
+	
+		(a) --abbrev-commit Flag.
+			
+			If you see our <CommitId>, its preety large. (fe31b18be8155d5c022affa84d3b4598c239a0b0)
+			Typically "first few characters" are enough for uniqueness.
+			So, If we want to show only those "first few characters", rather than these large characters, we can take help of
+			--abbrev-commit flag.
+			It will ask git to return those "first few characters", rather than these large characters.
+			
+			Example:
+				git log 
+					commit fe31b18be8155d5c022affa84d3b4598c239a0b0 (HEAD -> master, origin/master, origin/HEAD)
+					commit 74243845381d6a50a4525a53ce45bcd6d7182ce3
+					commit fc6db7aa378e15d1b1a3301ec4ff601434e56e2d
+					commit 7f241ac941522634b88bb3d3fdd612569ddbece8
+				git log --abbrev-commit		
+					commit fe31b18 (HEAD -> master, origin/master, origin/HEAD)
+					commit 7424384
+					commit fc6db7a
+					commit 7f241ac
+			
+			Note: Typically first 5-6 char are enough to uniquely identify the different Commit Ids. But With growing number 
+				  of commits in repository, this number may get increased.
+
+		(b) --oneline Flag
+			
+			Let's say, I am not interested in the all information that git log returns me.
+			I am not interested in author or the date on which the commit was made.
+			I just need the commit id and commit message.
+			If I have a scenarion like that, I can use --oneline flag.
+			Git will put everything in oneline and return that.
+			
+			Example:
+				git log --oneline
+				
+				fe31b18 (HEAD -> master, origin/master, origin/HEAD) Updated Documentation
+				7424384 Added 2 files. One for Detailed documentation. Other for Useful Commands.
+				fc6db7a Adding A New File That Contains The Documentation Of What We Have Learned So Far In GitVersionControl Udemy Course
+				7f241ac Initial commit
+			
+		
+		(c) --since <"Duration String">
+			Let's say, I want to see all the commits that were done 30 days ago from the current time.
+			In such cases, I can use --since <"Duration String"> Flag.
+			
+			Example:
+			git log --since "30 days ago" --oneline
+				fe31b18 (HEAD -> master, origin/master, origin/HEAD) Updated Documentation
+				7424384 Added 2 files. One for Detailed documentation. Other for Useful Commands.
+				fc6db7a Adding A New File That Contains The Documentation Of What We Have Learned So Far In GitVersionControl Udemy Course
+				7f241ac Initial commit
+
+		(d) --follow -- <FileName>
+			If I want to see history beyong renames.
+            Example:
+			git log --oneline -- hipsters.txt
+				2315d7a (HEAD -> master) Modifying hispters.txt
+				13ce1b9 Renaming hipster.txt to hipsters.txt
+
+
+			git log --oneline --follow -- hipsters.txt
+				2315d7a (HEAD -> master) Modifying hispters.txt
+				13ce1b9 Renaming hipster.txt to hipsters.txt
+				ae323d8 (origin/master, origin/HEAD) Adding hipster.txt
