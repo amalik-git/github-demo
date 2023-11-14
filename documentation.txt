@@ -1,6 +1,6 @@
 GitHub Credentials:
 amalik-git
-sn@impala67
+
 
 Github Repository Created
 Name:   github-demo
